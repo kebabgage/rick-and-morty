@@ -1,58 +1,137 @@
 import {
   Box,
   Button,
+  Divider,
   Grid2 as Grid,
   IconButton,
+  Paper,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { Character } from "../types/Character";
 import { CharacterOverview } from "./CharacterOverview";
 import { useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { alpha } from "@mui/material/styles";
 
-interface TableRowProps {
-  character: Character;
+interface TableCellProps {
+  children: React.ReactNode;
 }
 
-export const TableRow = ({ character }: TableRowProps) => {
-  const [showOverview, setShowOverview] = useState(false);
+export const TableCell = ({ children }: TableCellProps) => (
+  // TODO: Make this styled
+  <Box
+    sx={{
+      paddingX: 1,
+      overflow: "hidden",
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+    }}
+  >
+    <Typography
+      sx={{
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        textOverflow: "ellipsis",
+      }}
+    >
+      {children}
+    </Typography>
+  </Box>
+);
 
-  const onClick = () => {
-    console.log("...");
-    setShowOverview(!showOverview);
-  };
+interface TableRowProps {
+  /**
+   * The index of the row
+   */
+  index?: number;
 
-  console.log(showOverview);
+  /**
+   * The character information to display
+   *
+   * @deprecated
+   */
+  character?: Character;
+
+  /**
+   * Values to display
+   */
+  columnValues: {
+    /**
+     *
+     */
+    value?: string;
+
+    /**
+     *
+     */
+    columnSize: number;
+  }[];
+
+  selected?: boolean;
+
+  onClick?: () => void;
+}
+
+export const TableRow = ({
+  index,
+  character,
+  columnValues,
+  selected,
+  onClick,
+}: TableRowProps) => {
+  const theme = useTheme();
+  // const [showOverview, setShowOverview] = useState(false);
+
+  // const onClick = () => {
+  //   setShowOverview(!showOverview);
+  // };
 
   return (
     <>
-      <Box>
+      <Paper
+        square
+        onClick={onClick}
+        sx={{
+          width: "100%",
+          "&:hover": {
+            backgroundColor: alpha(theme.palette.secondary.dark, 0.2),
+            cursor: "pointer",
+          },
+          backgroundColor: selected
+            ? alpha(theme.palette.secondary.dark, 0.4)
+            : undefined,
+        }}
+      >
         <Grid container>
           <IconButton onClick={onClick}>
-            {showOverview ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {selected ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
-          <Grid size={4}>
-            <Typography>{character?.name}</Typography>
-          </Grid>
-          <Grid size={1}>
-            <Typography>{character?.gender}</Typography>
-          </Grid>
-          <Grid size={1}>
-            <Typography>{character?.status}</Typography>
-          </Grid>
-          <Grid size={1}>
-            <Typography>{character?.species}</Typography>
-          </Grid>
-          <Grid size={3}>
-            <Typography>{character?.location?.name}</Typography>
-          </Grid>
-          <Grid size={2}>
-            <Typography>{character?.episode?.length}</Typography>
-          </Grid>
+
+          {columnValues.map((column) => {
+            return (
+              <>
+                <Divider orientation="vertical" variant="middle" flexItem />
+                <Grid
+                  size={column.columnSize}
+                  sx={{
+                    // TODO: Make this
+                    display: "flex",
+                    alignContent: "center",
+                    flexWrap: "wrap",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  <TableCell>{column.value}</TableCell>
+                </Grid>
+              </>
+            );
+          })}
         </Grid>
-      </Box>
-      {showOverview && <CharacterOverview character={character} />}
+      </Paper>
     </>
   );
 };

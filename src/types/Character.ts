@@ -58,7 +58,7 @@ export interface Character {
   /**
    * List of episodes in which this character appeared.
    */
-  episode?: string[];
+  episode: string[];
 
   /**
    * Time at which the character was created in the database.
