@@ -6,6 +6,7 @@ import {
   Divider,
   Input,
   InputAdornment,
+  Skeleton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -17,6 +18,7 @@ import { TableHeader } from "./TableHeader";
 import { Character } from "../types/Character";
 import { CharacterOverview } from "./CharacterOverview";
 import { useCharacters } from "../hooks/useCharacters";
+import { TableRowSkeleton } from "./TableRowSkeleton";
 
 interface ApiResponse {
   info: {
@@ -94,28 +96,30 @@ export const CharacterTable = ({}: TableProps) => {
           size="small"
         />
       </Box>
-      {isPending ? (
-        <CircularProgress />
-      ) : (
-        <Box
-          sx={{
-            border: "1.5px solid rgba(0, 0, 0, 0.25)",
-            borderRadius: "4px",
-          }}
-        >
-          <TableHeader
-            columnValues={[
-              { value: "Name", columnSize: 2 },
-              { value: "Gender", columnSize: 1 },
-              { value: "Status", columnSize: 1 },
-              { value: "Species", columnSize: 1 },
-              { value: "Location", columnSize: 2.75 },
-              { value: "Origin", columnSize: 2.75 },
-              { value: "Episodes", columnSize: 1 },
-            ]}
-          />
-          <Divider />
-          {data?.results?.map((character, index, results) => {
+
+      <Box
+        sx={{
+          border: "1.5px solid rgba(0, 0, 0, 0.25)",
+          borderRadius: "4px",
+        }}
+      >
+        <TableHeader
+          columnValues={[
+            { value: "Name", columnSize: 2 },
+            { value: "Gender", columnSize: 1 },
+            { value: "Status", columnSize: 1 },
+            { value: "Species", columnSize: 1 },
+            { value: "Location", columnSize: 2.75 },
+            { value: "Origin", columnSize: 2.75 },
+            { value: "Episodes", columnSize: 1 },
+          ]}
+        />
+        <Divider />
+
+        {isPending ? (
+          <TableRowSkeleton columnSizes={[2, 1, 1, 1, 2.75, 2.75, 1]} />
+        ) : (
+          data?.results?.map((character, index, results) => {
             return (
               <>
                 <TableRow
@@ -132,7 +136,7 @@ export const CharacterTable = ({}: TableProps) => {
                   index={index}
                   // TODO: Fix typings
                   onClick={() => {
-                    if (selectedCharacter) {
+                    if (selectedCharacter === character.name) {
                       setSelectedCharacter(null);
                     } else {
                       setSelectedCharacter(character.name ?? "");
@@ -146,9 +150,10 @@ export const CharacterTable = ({}: TableProps) => {
                 )}
               </>
             );
-          })}
-        </Box>
-      )}
+          })
+        )}
+      </Box>
+
       <Box sx={{ display: "flex", justifyContent: "right", paddingTop: 1 }}>
         <Button
           variant="contained"
