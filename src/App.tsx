@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { CharacterTable } from "./components/Table";
+import { CharacterTable } from "./components/CharacterTable";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Box, Typography } from "@mui/material";
 import { ThemeProvider } from "./util/ThemeProvider";

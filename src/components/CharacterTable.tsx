@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { TableRow } from "./TableRow";
 import { Search } from "@mui/icons-material";
 import { TableHeader } from "./TableHeader";
@@ -38,21 +38,44 @@ interface ApiResponse {
 interface TableProps {}
 
 export const CharacterTable = ({}: TableProps) => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState<string | undefined>();
   const [searchValue, setSearchValue] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>(
     null
   );
 
-  const queryFn = async (page: number = 0) => {
-    const res = await fetch("https://rickandmortyapi.com/api/character");
-    return res.json() as unknown as ApiResponse;
-  };
+  /**
+   *
+   * @param page - The URL to fetch the data from
+   * @returns
+   */
+  // const queryFn = async (page?: string) => {
+  //   if (page === undefined) {
+  //     const result = await fetch("https://rickandmortyapi.com/api/character");
+  //     return result.json() as unknown as ApiResponse;
+  //   } else {
+  //     const result = await fetch(page);
+  //     return result.json() as unknown as ApiResponse;
+  //   }
+  // };
+
+  const queryFn = useCallback(async () => {
+    if (page === undefined) {
+      const result = await fetch("https://rickandmortyapi.com/api/character");
+      return result.json() as unknown as ApiResponse;
+    } else {
+      const result = await fetch(page);
+      return result.json() as unknown as ApiResponse;
+    }
+  }, [page]);
 
   const { data, isPending, isError } = useQuery({
-    queryFn: () => queryFn(page),
-    queryKey: ["character"],
+    queryFn: () => queryFn(),
+    // TODO: Refactor this to be a getQueryKey
+    queryKey: ["character", "page", page],
   });
+
+  console.log(page);
 
   if (isPending) {
     return <CircularProgress />;
@@ -132,10 +155,20 @@ export const CharacterTable = ({}: TableProps) => {
         ))}
       </Box>
       <Box sx={{ display: "flex", justifyContent: "right", paddingTop: 1 }}>
-        <Button variant="contained" color="primary" sx={{ marginRight: 2 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ marginRight: 2 }}
+          disabled={!data.info.prev}
+        >
           Previous
         </Button>
-        <Button variant="contained" color="primary">
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={!data.info.next}
+          onClick={() => (data.info.next ? setPage(data.info.next) : undefined)}
+        >
           Next
         </Button>
       </Box>
