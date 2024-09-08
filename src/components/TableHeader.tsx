@@ -26,11 +26,17 @@ export const TableHeader = ({ columnValues }: TableHeaderProps) => {
             flexItem
           />
 
-          {columnValues.map((column) => {
+          {columnValues.map((column, index) => {
             return (
               <>
-                <Divider orientation="vertical" variant="middle" flexItem />
+                <Divider
+                  orientation="vertical"
+                  variant="middle"
+                  flexItem
+                  key={index}
+                />
                 <Grid
+                  key={index}
                   size={column.columnSize}
                   sx={{
                     // TODO: Make this

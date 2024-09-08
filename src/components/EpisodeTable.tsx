@@ -67,14 +67,15 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
               { value: "Episode", columnSize: 3 },
             ]}
           />
-          {episodeQueries.map((episode) => {
+          {episodeQueries.map((episode, index) => {
             const [seasonNumber, episodeNumber] = getEpisodeAndSeasonNumber(
               episode.data.episode
             );
             return (
               <>
-                <Divider />
+                <Divider key={index} />
                 <TableRow
+                  key={index}
                   columnValues={[
                     { value: episode.data.name, columnSize: 3 },
                     { value: seasonNumber, columnSize: 3 },
