@@ -28,5 +28,8 @@ jobs:
       - name: Jest Unit Tests
         run: npm test
 
+      - name: Build React App
+        run: npm build
+
       - name: Deploy To Github Pages
         run: npm run deploy
