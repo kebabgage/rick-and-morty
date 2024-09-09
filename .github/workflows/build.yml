@@ -29,7 +29,7 @@ jobs:
         run: npm test
 
       - name: Build React App
-        run: npm build
+        run: npm run build
 
       - name: Deploy To Github Pages
         run: npm run deploy
