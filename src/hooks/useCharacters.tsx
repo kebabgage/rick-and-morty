@@ -1,28 +1,33 @@
 import { useQuery } from "@tanstack/react-query";
-import { Character } from "../types/Character";
 import { useMemo } from "react";
+import { getApi } from "../api/Api";
 
-export interface ApiResponse {
-  info: {
-    // The total count of items
-    count: number;
+const getQueryKey = (url: URL) => {
+  const searchParams = new URLSearchParams(url.search);
 
-    // The previous page
-    prev: string | null;
+  let queryKey = ["character"];
 
-    // The next page
-    next: string | null;
+  const pageQuery = searchParams.get("page");
+  if (pageQuery !== null) {
+    queryKey.push("page", pageQuery);
+  }
 
-    // The total number of pages
-    pages: number;
-  };
+  const searchQuery = searchParams.get("name");
+  if (searchQuery !== null) {
+    queryKey.push("name", searchQuery);
+  }
 
-  results: Character[];
+  console.log(queryKey);
 
-  error?: string;
-}
+  return queryKey;
+};
 
-export const useCharacters = (searchValue: string, currentPage?: string) => {
+export const useFetchCharacters = (
+  searchValue: string,
+  currentPage?: string
+) => {
+  const api = getApi();
+
   const url = useMemo(() => {
     const baseUrl =
       currentPage !== undefined
@@ -49,13 +54,12 @@ export const useCharacters = (searchValue: string, currentPage?: string) => {
    * @returns
    */
   const queryFn = async () => {
-    const result = await fetch(url.toString());
-    return result.json() as unknown as ApiResponse;
+    return api.getCharacters(url.toString());
   };
 
   return useQuery({
     queryFn: () => queryFn(),
     // TODO: Refactor this to be a getQueryKey
-    queryKey: ["character", "page", url, "searchValue", searchValue],
+    queryKey: getQueryKey(url),
   });
 };

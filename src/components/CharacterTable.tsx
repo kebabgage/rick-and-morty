@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useMemo, useState } from "react";
-import { useCharacters } from "../hooks/useCharacters";
+import { useFetchCharacters } from "../hooks/useCharacters";
 import { CharacterOverview } from "./CharacterOverview";
 import { TableHeader } from "./TableHeader";
 import { TableRow } from "./TableRow";
@@ -29,7 +29,7 @@ export const CharacterTable = () => {
     return pageUrl.split("page=")[1];
   }, [pageUrl]);
 
-  const { data, isPending, isError } = useCharacters(searchValue, pageUrl);
+  const { data, isPending, isError } = useFetchCharacters(searchValue, pageUrl);
 
   if (isError) {
     return <Alert>Something went wrong!</Alert>;
@@ -37,16 +37,12 @@ export const CharacterTable = () => {
 
   return (
     <Box sx={{ width: "85%", paddingBottom: 2 }} data-testid="character-table">
-      <Typography>
-        Page {pageNumber} of {data?.info.pages}
-      </Typography>
       <Box
         sx={{
           width: "100%",
           display: "flex",
-          justifyContent: "right",
+          justifyContent: "space-between",
           paddingBottom: 1,
-          // height: "90vh",
         }}
       >
         <TextField
@@ -66,6 +62,9 @@ export const CharacterTable = () => {
           }}
           size="small"
         />
+        <Typography>
+          Page {pageNumber} of {data?.info.pages}
+        </Typography>
       </Box>
 
       <Box
