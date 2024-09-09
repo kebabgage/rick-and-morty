@@ -41,33 +41,23 @@ export const TableCell = ({ children }: TableCellProps) => (
   </Box>
 );
 
-interface TableRowProps {
+export interface ColumnValues {
   /**
-   * The index of the row
-   */
-  index: number;
-
-  /**
-   * The character information to display
    *
-   * @deprecated
    */
-  character?: Character;
+  value: string;
 
+  /**
+   *
+   */
+  columnSize: number;
+}
+
+interface TableRowProps {
   /**
    * Values to display
    */
-  columnValues: {
-    /**
-     *
-     */
-    value?: string;
-
-    /**
-     *
-     */
-    columnSize: number;
-  }[];
+  columnValues: ColumnValues[];
 
   selected?: boolean;
 
@@ -75,18 +65,11 @@ interface TableRowProps {
 }
 
 export const TableRow = ({
-  index,
-  character,
   columnValues,
   selected,
   onClick,
 }: TableRowProps) => {
   const theme = useTheme();
-  // const [showOverview, setShowOverview] = useState(false);
-
-  // const onClick = () => {
-  //   setShowOverview(!showOverview);
-  // };
 
   return (
     <>
@@ -106,9 +89,11 @@ export const TableRow = ({
         }}
       >
         <Grid container>
-          <IconButton onClick={onClick}>
-            {selected ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
+          {onClick !== undefined && (
+            <IconButton onClick={onClick}>
+              {selected ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          )}
 
           {columnValues.map((column, i, columnValues) => {
             return (

@@ -1,25 +1,40 @@
-import {
-  Alert,
-  Box,
-  Button,
-  CircularProgress,
-  Divider,
-  Typography,
-} from "@mui/material";
+import { Alert, Box, Button, CircularProgress, Divider } from "@mui/material";
 import { useQueries } from "@tanstack/react-query";
-import { TableRow } from "./TableRow";
 import { Fragment, useState } from "react";
 import { TableHeader } from "./TableHeader";
+import { TableRow } from "./TableRow";
+import { getApi } from "../api/Api";
+import { milliseconds } from "date-fns";
 
-const getEpisodeAndSeasonNumber = (episodeCode: string) => {
+/**
+ * Simple helper function to extract the numerical representation of
+ * the season and episode
+ *
+ * @example
+ * ```
+ * > getEpisodeAndSeasonNumber("S01E23");
+ * > returns [01, 23]
+ * ```
+ *
+ * @param episodeCode - Text information about the season and episode
+ * @returns An array with the first element being the season number,
+ *          and the second being the episode number
+ */
+export const getEpisodeAndSeasonNumber = (episodeCode: string) => {
   return episodeCode.replace("S", "").split("E");
 };
 
 interface EpisodeTableProps {
+  /**
+   * Array of URLs to fetch episode data from.
+   * Each URL is an individual episode to display data from.
+   */
   episodes: string[];
 }
 
 export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
+  const api = getApi();
+
   // Used to toggle between showing all the episodes
   const [showAll, setShowAll] = useState(false);
 
@@ -27,8 +42,7 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
   const filteredEpisodes = !showAll ? episodes.slice(0, 10) : episodes;
 
   const episodeQueryFn = async (episodeUrl: string) => {
-    const res = await fetch(episodeUrl);
-    return res.json();
+    return api.getEpisode(episodeUrl);
   };
 
   const episodeQueries = useQueries({
@@ -36,6 +50,8 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
       return {
         queryKey: episode.split("/").slice(4, 6),
         queryFn: () => episodeQueryFn(episode),
+        retry: false,
+        refetchInterval: milliseconds({ seconds: 5 }),
       };
     }),
   });
@@ -44,7 +60,7 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
   const isError = episodeQueries.some((result) => result.isError);
 
   if (isPending) {
-    return <CircularProgress />;
+    return <CircularProgress data-testid="episode-table-loading" />;
   }
 
   if (isError) {
@@ -68,14 +84,18 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
             ]}
           />
           {episodeQueries.map((episode, index) => {
+            if (episode.data === undefined) {
+              return null;
+            }
+
             const [seasonNumber, episodeNumber] = getEpisodeAndSeasonNumber(
-              episode.data.episode
+              episode.data?.episode
             );
+
             return (
               <Fragment key={index}>
                 <Divider />
                 <TableRow
-                  index={episode.data.id}
                   columnValues={[
                     { value: episode.data.name, columnSize: 3 },
                     { value: seasonNumber, columnSize: 3 },

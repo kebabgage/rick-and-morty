@@ -118,12 +118,10 @@ export const CharacterTable = ({}: TableProps) => {
         {isPending ? (
           <TableRowSkeleton columnSizes={[2, 1, 1, 1, 2.75, 2.75, 1]} />
         ) : (
-          data?.results?.map((character, index, results) => {
-            console.log(character.id);
+          data?.results?.map((character, index) => {
             return (
               <Box key={character.id}>
                 <TableRow
-                  key={character.id}
                   columnValues={[
                     { value: character.name, columnSize: 2 },
                     { value: character.gender, columnSize: 1 },
@@ -133,8 +131,6 @@ export const CharacterTable = ({}: TableProps) => {
                     { value: character.origin?.name, columnSize: 2.75 },
                     { value: String(character.episode.length), columnSize: 1 },
                   ]}
-                  index={index}
-                  // TODO: Fix typings
                   onClick={() => {
                     if (selectedCharacter === character.name) {
                       setSelectedCharacter(null);
@@ -144,7 +140,7 @@ export const CharacterTable = ({}: TableProps) => {
                   }}
                   selected={selectedCharacter === character.name}
                 />
-                {/* <Divider key={index} /> */}
+                <Divider key={index} />
                 {selectedCharacter === character.name && (
                   <CharacterOverview character={character} />
                 )}

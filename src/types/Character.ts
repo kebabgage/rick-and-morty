@@ -7,53 +7,53 @@ export interface Character {
   /**
    * The id of the character
    */
-  id?: string;
+  id: string;
 
   /**
    *  The name of the character.
    */
-  name?: string;
+  name: string;
 
   /**
    * The status of the character ('Alive', 'Dead' or 'unknown').
    */
-  status?: string;
+  status: string;
 
   /**
    * The species of the character.
    */
-  species?: string;
+  species: string;
 
   /**
    * The type or subspecies of the character.
    */
-  type?: string;
+  type: string;
 
   /**
    * The gender of the character ('Female', 'Male', 'Genderless' or 'unknown').
    */
-  gender?: string;
+  gender: string;
 
   /**
    * Name and link to the character's origin location.
    */
-  origin?: {
-    name?: string;
-    location?: string;
+  origin: {
+    name: string;
+    location: string;
   };
 
   /**
    * Name and link to the character's last known location endpoint.
    */
-  location?: {
-    name?: string;
-    location?: string;
+  location: {
+    name: string;
+    location: string;
   };
 
   /**
    * Link to the character's image. All images are 300x300px and most are medium shots or portraits since they are intended to be used as avatars.
    */
-  image?: string;
+  image: string;
 
   /**
    * List of episodes in which this character appeared.
@@ -63,5 +63,5 @@ export interface Character {
   /**
    * Time at which the character was created in the database.
    */
-  created?: string;
+  created: string;
 }

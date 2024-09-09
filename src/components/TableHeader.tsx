@@ -6,14 +6,11 @@ import {
   Paper,
   useTheme,
 } from "@mui/material";
-import { TableCell } from "./TableRow";
+import { ColumnValues, TableCell } from "./TableRow";
 import { Fragment } from "react";
 
 interface TableHeaderProps {
-  columnValues: {
-    value: string;
-    columnSize: number;
-  }[];
+  columnValues: ColumnValues[];
 }
 
 export const TableHeader = ({ columnValues }: TableHeaderProps) => {
@@ -47,7 +44,6 @@ export const TableHeader = ({ columnValues }: TableHeaderProps) => {
                   key={column.value + "-table-cell"}
                   size={column.columnSize}
                   sx={{
-                    // TODO: Make this
                     display: "flex",
                     alignContent: "center",
                     flexWrap: "wrap",
