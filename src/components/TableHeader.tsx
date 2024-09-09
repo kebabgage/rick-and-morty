@@ -1,5 +1,13 @@
-import { alpha, Divider, Grid2 as Grid, Paper, useTheme } from "@mui/material";
+import {
+  alpha,
+  Box,
+  Divider,
+  Grid2 as Grid,
+  Paper,
+  useTheme,
+} from "@mui/material";
 import { TableCell } from "./TableRow";
+import { Fragment } from "react";
 
 interface TableHeaderProps {
   columnValues: {
@@ -28,15 +36,15 @@ export const TableHeader = ({ columnValues }: TableHeaderProps) => {
 
           {columnValues.map((column, index) => {
             return (
-              <>
+              <Fragment key={column.value}>
                 <Divider
                   orientation="vertical"
                   variant="middle"
                   flexItem
-                  key={index}
+                  key={column.value + "-divider"}
                 />
                 <Grid
-                  key={index}
+                  key={column.value + "-table-cell"}
                   size={column.columnSize}
                   sx={{
                     // TODO: Make this
@@ -50,7 +58,7 @@ export const TableHeader = ({ columnValues }: TableHeaderProps) => {
                 >
                   <TableCell>{column.value}</TableCell>
                 </Grid>
-              </>
+              </Fragment>
             );
           })}
         </Grid>

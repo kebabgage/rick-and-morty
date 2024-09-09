@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useQueries } from "@tanstack/react-query";
 import { TableRow } from "./TableRow";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { TableHeader } from "./TableHeader";
 
 const getEpisodeAndSeasonNumber = (episodeCode: string) => {
@@ -72,17 +72,17 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
               episode.data.episode
             );
             return (
-              <>
-                <Divider key={index} />
+              <Fragment key={index}>
+                <Divider />
                 <TableRow
-                  key={index}
+                  index={episode.data.id}
                   columnValues={[
                     { value: episode.data.name, columnSize: 3 },
                     { value: seasonNumber, columnSize: 3 },
                     { value: episodeNumber, columnSize: 3 },
                   ]}
                 />
-              </>
+              </Fragment>
             );
           })}
         </Box>

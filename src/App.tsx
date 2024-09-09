@@ -1,9 +1,6 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import { CharacterTable } from "./components/CharacterTable";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Box, Typography } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { CharacterTable } from "./components/CharacterTable";
 import { ThemeProvider } from "./util/ThemeProvider";
 
 const queryClient = new QueryClient();
@@ -20,7 +17,7 @@ function App() {
           }}
         >
           <Typography variant="h3" paddingBottom={4}>
-            Best Rick and Morty
+            Rick and Morty Characters
           </Typography>
           <CharacterTable />
         </Box>

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Character } from "../types/Character";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 
 export interface ApiResponse {
   info: {

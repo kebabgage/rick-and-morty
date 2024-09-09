@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Character } from "../types/Character";
 import { CharacterOverview } from "./CharacterOverview";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { alpha } from "@mui/material/styles";
@@ -45,7 +45,7 @@ interface TableRowProps {
   /**
    * The index of the row
    */
-  index?: number;
+  index: number;
 
   /**
    * The character information to display
@@ -91,6 +91,7 @@ export const TableRow = ({
   return (
     <>
       <Paper
+        key={columnValues.toString()}
         square
         onClick={onClick}
         sx={{
@@ -109,17 +110,11 @@ export const TableRow = ({
             {selected ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
 
-          {columnValues.map((column, index) => {
+          {columnValues.map((column, i, columnValues) => {
             return (
-              <>
-                <Divider
-                  orientation="vertical"
-                  variant="middle"
-                  flexItem
-                  key={index}
-                />
+              <Fragment key={i}>
+                <Divider orientation="vertical" variant="middle" flexItem />
                 <Grid
-                  key={index}
                   size={column.columnSize}
                   sx={{
                     // TODO: Make this
@@ -133,7 +128,7 @@ export const TableRow = ({
                 >
                   <TableCell>{column.value}</TableCell>
                 </Grid>
-              </>
+              </Fragment>
             );
           })}
         </Grid>

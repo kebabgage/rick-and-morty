@@ -63,9 +63,8 @@ export const CharacterTable = ({}: TableProps) => {
     return <Alert>Something went wrong!</Alert>;
   }
 
-  console.log(data?.info.pages);
   return (
-    <Box sx={{ width: "85%", paddingBottom: 2 }}>
+    <Box sx={{ width: "85%", paddingBottom: 2 }} data-testid="character-table">
       <Typography>
         Page {pageNumber} of {data?.info.pages}
       </Typography>
@@ -120,10 +119,11 @@ export const CharacterTable = ({}: TableProps) => {
           <TableRowSkeleton columnSizes={[2, 1, 1, 1, 2.75, 2.75, 1]} />
         ) : (
           data?.results?.map((character, index, results) => {
+            console.log(character.id);
             return (
-              <>
+              <Box key={character.id}>
                 <TableRow
-                  key={index}
+                  key={character.id}
                   columnValues={[
                     { value: character.name, columnSize: 2 },
                     { value: character.gender, columnSize: 1 },
@@ -144,11 +144,11 @@ export const CharacterTable = ({}: TableProps) => {
                   }}
                   selected={selectedCharacter === character.name}
                 />
-                <Divider />
+                {/* <Divider key={index} /> */}
                 {selectedCharacter === character.name && (
                   <CharacterOverview character={character} />
                 )}
-              </>
+              </Box>
             );
           })
         )}
