@@ -21,7 +21,7 @@ jobs:
           actions/setup-node@v3
           # Allows passing additional parameters to the action, in this case, specifying the Node.js version.
         with:
-          node-version: 16
+          node-versionx``: 16
       - name: Install Dependencies
         run: npm install
 
@@ -31,5 +31,7 @@ jobs:
       - name: Build React App
         run: npm run build
 
-      - name: Deploy To Github Pages
-        run: npm run deploy
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build # The folder the action should deploy.
