@@ -1,13 +1,6 @@
-import {
-  alpha,
-  Box,
-  Divider,
-  Grid2 as Grid,
-  Paper,
-  useTheme,
-} from "@mui/material";
-import { ColumnValues, TableCell } from "./TableRow";
+import { alpha, Divider, Grid2 as Grid, Paper, useTheme } from "@mui/material";
 import { Fragment } from "react";
+import { ColumnValues, TableCell } from "./TableRow";
 
 interface TableHeaderProps {
   columnValues: ColumnValues[];

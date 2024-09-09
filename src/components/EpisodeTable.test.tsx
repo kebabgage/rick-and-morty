@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
-// import { Api } from "../api/Api";
 import { episodeMocks } from "../api/mocks/episodeMocks";
 import { EpisodeTable, getEpisodeAndSeasonNumber } from "./EpisodeTable";
 import userEvent from "@testing-library/user-event";

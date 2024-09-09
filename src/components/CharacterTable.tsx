@@ -1,48 +1,20 @@
+import { Search } from "@mui/icons-material";
 import {
   Alert,
   Box,
   Button,
-  CircularProgress,
   Divider,
-  Input,
-  InputAdornment,
-  Skeleton,
   TextField,
   Typography,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { useCallback, useMemo, useState } from "react";
-import { TableRow } from "./TableRow";
-import { Search } from "@mui/icons-material";
-import { TableHeader } from "./TableHeader";
-import { Character } from "../types/Character";
-import { CharacterOverview } from "./CharacterOverview";
+import { useMemo, useState } from "react";
 import { useCharacters } from "../hooks/useCharacters";
+import { CharacterOverview } from "./CharacterOverview";
+import { TableHeader } from "./TableHeader";
+import { TableRow } from "./TableRow";
 import { TableRowSkeleton } from "./TableRowSkeleton";
 
-interface ApiResponse {
-  info: {
-    // The total count of items
-    count: number;
-
-    // The previous page
-    prev: string | null;
-
-    // The next page
-    next: string | null;
-
-    // The total number of pages
-    pages: number;
-  };
-
-  results: Character[];
-
-  error?: string;
-}
-
-interface TableProps {}
-
-export const CharacterTable = ({}: TableProps) => {
+export const CharacterTable = () => {
   const [pageUrl, setPageUrl] = useState<string | undefined>();
   const [searchValue, setSearchValue] = useState("");
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>(

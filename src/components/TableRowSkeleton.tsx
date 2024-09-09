@@ -1,10 +1,4 @@
-import {
-  Divider,
-  Grid2 as Grid,
-  Skeleton,
-  TableCell,
-  Typography,
-} from "@mui/material";
+import { Divider, Grid2 as Grid, Skeleton, Typography } from "@mui/material";
 import { Fragment } from "react";
 
 interface TableRowSkeletonProps {
@@ -21,20 +15,18 @@ export const TableRowSkeleton = ({ columnSizes }: TableRowSkeletonProps) => {
       {[...Array(20).keys()].map((item) => (
         <Grid container data-testid="table-row" key={item}>
           <Divider
-            key={item}
             sx={{ paddingLeft: "40px" }}
             orientation="vertical"
             variant="middle"
             flexItem
           />
 
-          {columnSizes.map((size, index, items) => (
+          {columnSizes.map((size, index) => (
             <Fragment key={index}>
               <Divider orientation="vertical" variant="middle" flexItem />
               <Grid
                 size={size}
                 sx={{
-                  // TODO: Make this
                   display: "flex",
                   alignContent: "center",
                   flexWrap: "wrap",

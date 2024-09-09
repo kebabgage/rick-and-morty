@@ -1,6 +1,7 @@
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {
   Box,
-  Button,
   Divider,
   Grid2 as Grid,
   IconButton,
@@ -8,12 +9,8 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { Character } from "../types/Character";
-import { CharacterOverview } from "./CharacterOverview";
-import { Fragment, useState } from "react";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { alpha } from "@mui/material/styles";
+import { Fragment } from "react";
 
 interface TableCellProps {
   children: React.ReactNode;
