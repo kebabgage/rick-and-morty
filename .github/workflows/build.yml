@@ -5,30 +5,28 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
- node-build: 
-   runs-on: ubuntu-latest
+  github-pages-deploy:
+    runs-on: ubuntu-latest
 
-   steps: 
-     - name: Checkout Repository
-       uses: actions/checkout@v2
-     - name: Set Up Node.js
-       uses: actions/setup-node@v3
-        # Allows passing additional parameters to the action, in this case, specifying the Node.js version.
-       with:
-         node-version: 16
-     - name: Install Dependencies
-       run: npm install 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Set Up Node.js
+        uses:
+          actions/setup-node@v3
+          # Allows passing additional parameters to the action, in this case, specifying the Node.js version.
+        with:
+          node-version: 16
+      - name: Install Dependencies
+        run: npm install
 
-     - name: Jest Unit Tests 
-       run: npm test 
+      - name: Jest Unit Tests
+        run: npm test
 
-     - name: Build React App 
-       run: npm run build 
-     
-      
-          
+      - name: Deploy To Github Pages
+        run: npm run deploy
