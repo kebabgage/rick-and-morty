@@ -17,7 +17,7 @@ describe("EpisodeTable", () => {
 
     await waitFor(() =>
       expect(
-        screen.queryByTestId("episode-table-loading")
+        screen.queryByTestId("cell-loading-skeleton")
       ).not.toBeInTheDocument()
     );
 

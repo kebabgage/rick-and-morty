@@ -88,7 +88,7 @@ describe("CharacterTable", () => {
     expect(screen.getByTestId("episode-table")).toBeInTheDocument();
 
     // Check that the image visible
-    expect(screen.getByTestId("character-profile-img")).toBeInTheDocument();
+    expect(screen.getByTestId("character-profile-image")).toBeInTheDocument();
 
     // Close the overview
     userEvent.click(within(tableRows[1]).getByTestId("open-overview"));
