@@ -17,7 +17,6 @@ interface TableCellProps {
 }
 
 export const TableCell = ({ children }: TableCellProps) => (
-  // TODO: Make this styled
   <Box
     sx={{
       paddingX: 1,
@@ -71,6 +70,7 @@ export const TableRow = ({
   return (
     <>
       <Paper
+        data-testid="table-row"
         key={columnValues.toString()}
         square
         onClick={onClick}
@@ -87,7 +87,7 @@ export const TableRow = ({
       >
         <Grid container>
           {onClick !== undefined ? (
-            <IconButton onClick={onClick}>
+            <IconButton onClick={onClick} data-testid="open-overview">
               {selected ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
           ) : (

@@ -57,7 +57,6 @@ export const useFetchCharacters = (
 
   return useQuery({
     queryFn: () => queryFn(),
-    // TODO: Refactor this to be a getQueryKey
     queryKey: getQueryKey(url),
   });
 };

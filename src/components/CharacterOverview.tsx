@@ -9,8 +9,12 @@ interface CharacterOverviewProps {
 
 export const CharacterOverview = ({ character }: CharacterOverviewProps) => {
   return (
-    <Box sx={{ display: "flex", padding: 2, gap: 3, alignContent: "center" }}>
+    <Box
+      sx={{ display: "flex", padding: 2, gap: 3, alignContent: "center" }}
+      data-testid="character-overview"
+    >
       <img
+        data-testid="character-profile-image"
         style={{
           height: "200px",
           width: "200px",

@@ -1,4 +1,4 @@
-import { Alert, Box, Button, useTheme, Divider } from "@mui/material";
+import { Alert, Box, Button, Divider } from "@mui/material";
 import { useQueries } from "@tanstack/react-query";
 import { Fragment, useState } from "react";
 import { TableHeader } from "./TableHeader";
@@ -66,7 +66,10 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
 
   return (
     <>
-      <Box sx={{ width: "60%", display: "flex", flexDirection: "column" }}>
+      <Box
+        sx={{ width: "60%", display: "flex", flexDirection: "column" }}
+        data-testid="episode-table"
+      >
         <Box
           sx={{
             border: "1.5px solid rgba(0, 0, 0, 0.25)",
@@ -108,15 +111,17 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
           )}
         </Box>
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setShowAll(!showAll)}
-          sx={{ alignSelf: "center", marginTop: 1 }}
-          size="small"
-        >
-          {showAll ? "Show Less" : "Show More"}
-        </Button>
+        {episodes.length >= 10 && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setShowAll(!showAll)}
+            sx={{ alignSelf: "center", marginTop: 1 }}
+            size="small"
+          >
+            {showAll ? "Show Less" : "Show More"}
+          </Button>
+        )}
       </Box>
     </>
   );
