@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Box, Typography } from "@mui/material";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { CharacterTable } from "./components/CharacterTable";
+import { ThemeProvider } from "./util/ThemeProvider";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            height: "100vh",
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Typography variant="h3" paddingBottom={3}>
+            Rick and Morty Characters
+          </Typography>
+          <CharacterTable />
+        </Box>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
