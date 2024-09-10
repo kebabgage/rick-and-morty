@@ -3,7 +3,7 @@ import { screen, render, within } from "@testing-library/react";
 
 describe("TableRowSkeleton", () => {
   test("should render proper amount of cells", () => {
-    render(<TableRowSkeleton columnSizes={[1, 2, 3, 4]} />);
+    render(<TableRowSkeleton skeletonNumber={20} columnSizes={[1, 2, 3, 4]} />);
 
     const rows = screen.getAllByTestId("table-row");
     expect(rows).toHaveLength(20);

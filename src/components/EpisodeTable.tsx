@@ -1,10 +1,11 @@
-import { Alert, Box, Button, CircularProgress, Divider } from "@mui/material";
+import { Alert, Box, Button, useTheme, Divider } from "@mui/material";
 import { useQueries } from "@tanstack/react-query";
 import { Fragment, useState } from "react";
 import { TableHeader } from "./TableHeader";
 import { TableRow } from "./TableRow";
 import { getApi } from "../api/Api";
 import { milliseconds } from "date-fns";
+import { TableRowSkeleton } from "./TableRowSkeleton";
 
 /**
  * Simple helper function to extract the numerical representation of
@@ -34,6 +35,7 @@ interface EpisodeTableProps {
 
 export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
   const api = getApi();
+  const theme = useTheme();
 
   // Used to toggle between showing all the episodes
   const [showAll, setShowAll] = useState(false);
@@ -59,10 +61,6 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
   const isPending = episodeQueries.some((result) => result.isPending);
   const isError = episodeQueries.some((result) => result.isError);
 
-  if (isPending) {
-    return <CircularProgress data-testid="episode-table-loading" />;
-  }
-
   if (isError) {
     return <Alert>Error occurred!</Alert>;
   }
@@ -83,28 +81,32 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
               { value: "Episode", columnSize: 3 },
             ]}
           />
-          {episodeQueries.map((episode, index) => {
-            if (episode.data === undefined) {
-              return null;
-            }
+          {isPending ? (
+            <TableRowSkeleton skeletonNumber={4} columnSizes={[3, 3, 3]} />
+          ) : (
+            episodeQueries.map((episode, index) => {
+              if (episode.data === undefined) {
+                return null;
+              }
 
-            const [seasonNumber, episodeNumber] = getEpisodeAndSeasonNumber(
-              episode.data?.episode
-            );
+              const [seasonNumber, episodeNumber] = getEpisodeAndSeasonNumber(
+                episode.data?.episode
+              );
 
-            return (
-              <Fragment key={index}>
-                <Divider />
-                <TableRow
-                  columnValues={[
-                    { value: episode.data.name, columnSize: 3 },
-                    { value: seasonNumber, columnSize: 3 },
-                    { value: episodeNumber, columnSize: 3 },
-                  ]}
-                />
-              </Fragment>
-            );
-          })}
+              return (
+                <Fragment key={index}>
+                  <Divider />
+                  <TableRow
+                    columnValues={[
+                      { value: episode.data.name, columnSize: 3 },
+                      { value: seasonNumber, columnSize: 3 },
+                      { value: episodeNumber, columnSize: 3 },
+                    ]}
+                  />
+                </Fragment>
+              );
+            })
+          )}
         </Box>
         {episodes.length > filteredEpisodes.length && (
           <Button

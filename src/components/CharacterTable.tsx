@@ -36,7 +36,17 @@ export const CharacterTable = () => {
   }
 
   return (
-    <Box sx={{ width: "85%", paddingBottom: 2 }} data-testid="character-table">
+    <Box
+      sx={{
+        width: "95%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "0px",
+        flexGrow: 1,
+      }}
+      data-testid="character-table"
+    >
       <Box
         sx={{
           width: "100%",
@@ -62,7 +72,7 @@ export const CharacterTable = () => {
           }}
           size="small"
         />
-        <Typography>
+        <Typography sx={{ paddingRight: 2 }}>
           Page {pageNumber} of {data?.info.pages}
         </Typography>
       </Box>
@@ -71,6 +81,7 @@ export const CharacterTable = () => {
         sx={{
           border: "1.5px solid rgba(0, 0, 0, 0.25)",
           borderRadius: "4px",
+          overflowY: "auto",
         }}
       >
         <TableHeader
@@ -87,7 +98,10 @@ export const CharacterTable = () => {
         <Divider />
 
         {isPending ? (
-          <TableRowSkeleton columnSizes={[2, 1, 1, 1, 2.75, 2.75, 1]} />
+          <TableRowSkeleton
+            skeletonNumber={20}
+            columnSizes={[2, 1, 1, 1, 2.75, 2.75, 1]}
+          />
         ) : (
           data?.results?.map((character, index) => {
             return (
@@ -103,16 +117,16 @@ export const CharacterTable = () => {
                     { value: String(character.episode.length), columnSize: 1 },
                   ]}
                   onClick={() => {
-                    if (selectedCharacter === character.name) {
+                    if (selectedCharacter === character.id) {
                       setSelectedCharacter(null);
                     } else {
-                      setSelectedCharacter(character.name ?? "");
+                      setSelectedCharacter(character.id ?? "");
                     }
                   }}
-                  selected={selectedCharacter === character.name}
+                  selected={selectedCharacter === character.id}
                 />
                 <Divider key={index} />
-                {selectedCharacter === character.name && (
+                {selectedCharacter === character.id && (
                   <CharacterOverview character={character} />
                 )}
               </Box>
@@ -121,12 +135,22 @@ export const CharacterTable = () => {
         )}
       </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "right", paddingTop: 1 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "right",
+          paddingTop: 1,
+          paddingBottom: 2,
+        }}
+      >
         <Button
           variant="contained"
           color="primary"
           sx={{ marginRight: 2 }}
           disabled={!data?.info?.prev}
+          onClick={() =>
+            data?.info.prev ? setPageUrl(data.info.prev) : undefined
+          }
         >
           Previous
         </Button>

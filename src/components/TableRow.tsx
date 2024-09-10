@@ -86,20 +86,22 @@ export const TableRow = ({
         }}
       >
         <Grid container>
-          {onClick !== undefined && (
+          {onClick !== undefined ? (
             <IconButton onClick={onClick}>
               {selected ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
             </IconButton>
+          ) : (
+            // Return an empty box to make up for empty space
+            <Box sx={{ width: "40px" }}></Box>
           )}
 
-          {columnValues.map((column, i, columnValues) => {
+          {columnValues.map((column, i) => {
             return (
               <Fragment key={i}>
                 <Divider orientation="vertical" variant="middle" flexItem />
                 <Grid
                   size={column.columnSize}
                   sx={{
-                    // TODO: Make this
                     display: "flex",
                     alignContent: "center",
                     flexWrap: "wrap",

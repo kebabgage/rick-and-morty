@@ -14,9 +14,10 @@ function App() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            height: "100vh",
           }}
         >
-          <Typography variant="h3" paddingBottom={4}>
+          <Typography variant="h3" paddingBottom={3}>
             Rick and Morty Characters
           </Typography>
           <CharacterTable />

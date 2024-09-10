@@ -2,17 +2,21 @@ import { Divider, Grid2 as Grid, Skeleton, Typography } from "@mui/material";
 import { Fragment } from "react";
 
 interface TableRowSkeletonProps {
+  skeletonNumber: number;
   columnSizes: number[];
 }
 
 /**
- * Returns 20 loading skeletons, that each represent a table row with the column sizes
+ * Returns a number loading skeletons, that each represent a table row with the column sizes
  * provided
  */
-export const TableRowSkeleton = ({ columnSizes }: TableRowSkeletonProps) => {
+export const TableRowSkeleton = ({
+  skeletonNumber,
+  columnSizes,
+}: TableRowSkeletonProps) => {
   return (
     <>
-      {[...Array(20).keys()].map((item) => (
+      {[...Array(skeletonNumber).keys()].map((item) => (
         <Grid container data-testid="table-row" key={item}>
           <Divider
             sx={{ paddingLeft: "40px" }}
