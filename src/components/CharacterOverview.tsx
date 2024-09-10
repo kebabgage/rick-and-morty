@@ -18,7 +18,6 @@ export const CharacterOverview = ({ character }: CharacterOverviewProps) => {
         style={{
           height: "200px",
           width: "200px",
-          // padding: "16px",
           borderRadius: "20px",
         }}
         src={character.image}
