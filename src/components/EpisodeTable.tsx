@@ -84,7 +84,7 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
             ]}
           />
           {isPending ? (
-            <TableRowSkeleton skeletonNumber={10} columnSizes={[3, 3, 3]} />
+            <TableRowSkeleton skeletonNumber={4} columnSizes={[3, 3, 3]} />
           ) : (
             episodeQueries.map((episode, index) => {
               if (episode.data === undefined) {

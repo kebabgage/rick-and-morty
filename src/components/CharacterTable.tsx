@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Divider,
+  Skeleton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -75,10 +76,12 @@ export const CharacterTable = () => {
           }}
           size="small"
         />
-        {pageNumber && data?.info.pages && (
+        {pageNumber && data?.info.pages ? (
           <Typography sx={{ paddingRight: 2 }}>
             Page {pageNumber} of {data?.info.pages}
           </Typography>
+        ) : (
+          <Skeleton />
         )}
       </Box>
 
