@@ -26,7 +26,10 @@ export const CharacterTable = () => {
       return 1;
     }
 
-    return pageUrl.split("page=")[1];
+    const url = new URL(pageUrl);
+    const params = new URLSearchParams(url.search);
+
+    return params.get("page");
   }, [pageUrl]);
 
   const { data, isPending, isError } = useFetchCharacters(searchValue, pageUrl);
@@ -72,9 +75,11 @@ export const CharacterTable = () => {
           }}
           size="small"
         />
-        <Typography sx={{ paddingRight: 2 }}>
-          Page {pageNumber} of {data?.info.pages}
-        </Typography>
+        {pageNumber && data?.info.pages && (
+          <Typography sx={{ paddingRight: 2 }}>
+            Page {pageNumber} of {data?.info.pages}
+          </Typography>
+        )}
       </Box>
 
       <Box
@@ -106,6 +111,8 @@ export const CharacterTable = () => {
           data?.results?.map((character, index) => {
             return (
               <Box key={character.id}>
+                <Divider key={index} />
+
                 <TableRow
                   columnValues={[
                     { value: character.name, columnSize: 2 },
@@ -125,7 +132,6 @@ export const CharacterTable = () => {
                   }}
                   selected={selectedCharacter === character.id}
                 />
-                <Divider key={index} />
                 {selectedCharacter === character.id && (
                   <CharacterOverview character={character} />
                 )}
@@ -145,7 +151,7 @@ export const CharacterTable = () => {
       >
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           sx={{ marginRight: 2 }}
           disabled={!data?.info?.prev}
           onClick={() =>
@@ -156,7 +162,7 @@ export const CharacterTable = () => {
         </Button>
         <Button
           variant="contained"
-          color="primary"
+          color="secondary"
           disabled={!data?.info?.next}
           onClick={() =>
             data?.info?.next ? setPageUrl(data.info.next) : undefined

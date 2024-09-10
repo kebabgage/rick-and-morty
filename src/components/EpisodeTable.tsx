@@ -35,7 +35,6 @@ interface EpisodeTableProps {
 
 export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
   const api = getApi();
-  const theme = useTheme();
 
   // Used to toggle between showing all the episodes
   const [showAll, setShowAll] = useState(false);
@@ -67,7 +66,7 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
 
   return (
     <>
-      <Box sx={{ width: "60%" }}>
+      <Box sx={{ width: "60%", display: "flex", flexDirection: "column" }}>
         <Box
           sx={{
             border: "1.5px solid rgba(0, 0, 0, 0.25)",
@@ -82,7 +81,7 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
             ]}
           />
           {isPending ? (
-            <TableRowSkeleton skeletonNumber={4} columnSizes={[3, 3, 3]} />
+            <TableRowSkeleton skeletonNumber={10} columnSizes={[3, 3, 3]} />
           ) : (
             episodeQueries.map((episode, index) => {
               if (episode.data === undefined) {
@@ -108,15 +107,16 @@ export const EpisodeTable = ({ episodes }: EpisodeTableProps) => {
             })
           )}
         </Box>
-        {episodes.length > filteredEpisodes.length && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setShowAll(!showAll)}
-          >
-            {showAll ? "Show Less" : "Show More"}
-          </Button>
-        )}
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setShowAll(!showAll)}
+          sx={{ alignSelf: "center", marginTop: 1 }}
+          size="small"
+        >
+          {showAll ? "Show Less" : "Show More"}
+        </Button>
       </Box>
     </>
   );

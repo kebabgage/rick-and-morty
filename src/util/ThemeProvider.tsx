@@ -1,13 +1,18 @@
-import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material";
+import {
+  alpha,
+  createTheme,
+  ThemeProvider as MuiThemeProvider,
+} from "@mui/material";
 
 const theme = createTheme({
   typography: { fontFamily: ["SUSE", "cursive"].join(",") },
   palette: {
     primary: {
-      main: "#3E54D3",
+      main: alpha("#3E54D3", 0.8),
     },
     secondary: {
-      main: "#13CDCA",
+      main: alpha("#13CDCA", 0.4),
+      light: alpha("#13CDCA", 0.2),
     },
   },
 });

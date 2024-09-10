@@ -17,8 +17,6 @@ const getQueryKey = (url: URL) => {
     queryKey.push("name", searchQuery);
   }
 
-  console.log(queryKey);
-
   return queryKey;
 };
 
